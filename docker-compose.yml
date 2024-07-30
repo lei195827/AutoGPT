@@ -1,0 +1,21 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./rnd/autogpt_server
+      dockerfile: Dockerfile
+    command: poetry run app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres  # 如果后端依赖数据库服务，可以添加此项
+
+  frontend:
+    build:
+      context: ./rnd/autogpt_builder
+      dockerfile: Dockerfile
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
